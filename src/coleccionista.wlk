@@ -67,8 +67,50 @@
 // PUNTO 1: COLECCIONES
 object coleccionista {
 	
-	//TODO: Completar la implementacion de este objeto		
+	//TODO: Completar la implementacion de este objeto
+	var elementosColeccionables=#{}	
+	var categorias=#{juguete,musica}
+  method agregarCategoria(unaCategoria){
+  	categorias.add(unaCategoria)
+  }
+  
+  method eliminarCategoria(unaCategoria){
+  	categorias.remove(unaCategoria)
+  }	 
+	
+  method agregarElemento(unElemento){
+		elementosColeccionables.add(unElemento)
+	}	
+	
+  method quitarElemento(unElemento){
+		elementosColeccionables.remove(unElemento)
+	}
+	
+  method objetosFragiles() = elementosColeccionables.filter({elemento => elemento.esFragil()})
+  
+  method objetoFragilMasCaro() = self.objetosFragiles().find({elemento=>elemento.valor()==
+    	            self.objetosFragiles().map({_elemento =>_elemento.valor()}).max()})
+  
+   
+   method valorEnObjetosFragiles() = self.objetosFragiles().map({elemento=>elemento.valor()}).sum()
+   //devuelve la suma de los valores de todos los objetos frágiles de la galería.
+  
+  method valorEnCategoria(unaCategoria) = self.objetosDeCategoria(unaCategoria).map({elemento=> elemento.valor()}).sum()  
+  //devuelve la suma de los valores de todos los objetos de la galería que pertenecen a la categoría dada.
+  
+  method objetosDeCategoria(unaCategoria)= elementosColeccionables.filter({elemento=> elemento.categoria()==unaCategoria}) 
+  //dada una coleccion retorna todos los elementos que pertenecen a una categoria
+  
+  method existeElementoDe(unaCategoria) = elementosColeccionables.any({elemento=>elemento.categoria()==unaCategoria}) 
 
+  method categorias()= categorias.filter({categoria => self.existeElementoDe(categoria)})
+  //devuelve todas las categorías en las cuales el coleccionista posea al menos un elemento.
+  
+  method todosValiosos() =elementosColeccionables.all({elemento=>self.esValioso(elemento)})
+  //indica si la colección sólo posee elementos valiosos. Un elemento es considerado valioso para el coleccionista 
+  // si el valor supera $600
+  
+  method esValioso(unElemento) = unElemento.valor()>600
 }
 
 
@@ -109,7 +151,38 @@ object musica {
 // PUNTO 2: POLIMORFISMO. 
 object guitarraElectrica {
    //TODO Completar la implementacion de este objeto
+    var microfonos=#{gibson,diMarzio}
+    var estuches=#{estucheFlexible,estucheRigido}
+    var property estuchePuesto=estucheFlexible
+    var property microfonoPuesto=gibson
+    method agregarMicrofono(unMicrofono){
+     microfonos.add(unMicrofono)
+    }
+    method agregarEstuche(unEstuche){
+    	estuches.add(unEstuche)
+    } 
+    
+    method valor()= 10000 + microfonoPuesto.valor() 
+    
+    method esFragil()= estuchePuesto.fragil()
+     
+    method categoria() = musica
 }
 
 //TODO: agregar los objetos que falten! Si no agregaste ninguno repensá tu solución; pista: el punto se llama "POLIMORFISMO" 
 
+object gibson{
+	method valor()=1000
+}
+
+object diMarzio{
+    method valor()=800	
+}
+
+object estucheFlexible{
+	method fragil()=true
+}
+
+object estucheRigido{
+	method fragil()=false
+}

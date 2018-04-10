@@ -9,6 +9,10 @@ describe "test del coleccionista usando la guitarra"{
 		//
 		//TODO: Todos los valores de los test asumen que el coleccionista solo
 		//TODO: tiene la guitarra.
+		guitarraElectrica.agregarMicrofono(gibson)
+		guitarraElectrica.agregarMicrofono(diMarzio)
+	    guitarraElectrica.agregarEstuche(estucheFlexible)
+	    guitarraElectrica.agregarEstuche(estucheRigido)
 	}
 	
 	test "categoria" {
@@ -17,21 +21,25 @@ describe "test del coleccionista usando la guitarra"{
 	
 	test "valor usando microfonos gibson" {
 		//TODO: tal vez necesites invocar más cosas aquí para sconfigurar la guitarra
+		guitarraElectrica.microfonoPuesto(gibson)
 		assert.equals(11000, coleccionista.valorEnCategoria(musica))
 	}
 	
 	test "valor usando microfonos Di Marzio" {
 		//TODO: tal vez necesites invocar más cosas aquí para configurar la guitarra
+		guitarraElectrica.microfonoPuesto(diMarzio)
 		assert.equals(10800, coleccionista.valorEnCategoria(musica))
 	}
 	
 	test "Fragilidad con un estuche rigido" {
 		//TODO: tal vez necesites invocar más cosas aquí para configurar la guitarra
+		guitarraElectrica.estuchePuesto(estucheRigido)
 		assert.equals(0, coleccionista.valorEnObjetosFragiles())
 	}
 	
 	test "Fragilidad con un estuche flexible" {
 		//TODO: tal vez necesites invocar más cosas aquí para configurar la guitarra
+		guitarraElectrica.estuchePuesto(estucheFlexible)
 		assert.that(coleccionista.valorEnObjetosFragiles()>0)	
 	}
 }
